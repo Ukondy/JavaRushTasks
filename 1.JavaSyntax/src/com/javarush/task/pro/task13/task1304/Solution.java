@@ -9,16 +9,13 @@ import java.util.*;
 public class Solution {
 
     public static void printList(ArrayList<String> words) {
-        for (Iterator<String> iterator = words.iterator(); iterator.hasNext(); ) {
-            String word = iterator.next();
+        for (String word : words) {
             System.out.println(word);
         }
     }
 
     public static void printHashSet(HashSet<String> words) {
-        Iterator<String> iterator = words.iterator();
-        while (iterator.hasNext()) {
-            String word = iterator.next();
+        for (String word : words) {
             System.out.println(word);
         }
     }
