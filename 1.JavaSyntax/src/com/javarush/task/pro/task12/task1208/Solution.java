@@ -1,26 +1,26 @@
 package com.javarush.task.pro.task12.task1208;
 
 /* 
-РЎСЂР°РІРЅРµРЅРёРµ СЃРёРјРІРѕР»РѕРІ
+Сравнение символов
 */
 
 public class Solution {
     public static void main(String[] args) {
         compare('a', 'a');
-        compare('a', 'Р±');
-        compare('СЂ', 'РІ');
-        compare('С‹', 'С‹');
+        compare('a', 'б');
+        compare('р', 'в');
+        compare('ы', 'ы');
     }
 
     public static void compare(Character first, Character second) {
         if (first.equals(second)) {
-            System.out.println("СЂР°РІРЅС‹");
+            System.out.println("равны");
         } else if (first > second) {
-            System.out.println("Р±РѕР»СЊС€Рµ");
+            System.out.println("больше");
         } else if (first < second) {
-            System.out.println("РјРµРЅСЊС€Рµ");
+            System.out.println("меньше");
         } else {
-            System.out.println("Рђ РєР°Рє С‚Р°РєРѕРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ???");
+            System.out.println("А как такое может быть???");
         }
     }
 }
