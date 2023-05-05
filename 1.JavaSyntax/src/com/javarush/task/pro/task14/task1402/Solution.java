@@ -39,7 +39,11 @@ public class Solution {
                     }
 
                     int studentId = Integer.parseInt(input);
-                    System.out.println(ANSWERING + studentsJournal.get(studentId));
+                    try {
+                        System.out.println(ANSWERING + studentsJournal.get(studentId));
+                    } catch(Exception e) {
+                        System.out.println("Студента с таким номером не существует");
+                    }
                 }
             } catch (Exception e) {
                 System.out.print(NOT_EXIST);
