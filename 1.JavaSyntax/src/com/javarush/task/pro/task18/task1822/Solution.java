@@ -20,7 +20,7 @@ public class Solution {
     }
 
     public static List<Integer> getPositiveNumbers(Stream<Integer> numbers) {
-        List<Integer> list = numbers.collect(Collectors.toList());
+        List<Integer> list = numbers.filter(e-> e > 0).collect(Collectors.toList());
         return list;
     }
 }
