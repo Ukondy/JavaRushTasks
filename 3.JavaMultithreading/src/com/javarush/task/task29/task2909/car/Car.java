@@ -24,29 +24,25 @@ public class Car {
     }
 
     public static Car create(int type, int numberOfPassengers) {
-        return switch (type) {
-            case TRUCK -> new Truck(numberOfPassengers);
-            case SEDAN -> new Sedan(numberOfPassengers);
-            case CABRIOLET -> new Cabriolet(numberOfPassengers);
-            default -> null;
-        };
-    }
-
-    public int fill(double numberOfLiters) {
-        if (numberOfLiters < 0)
-            return -1;
-        fuel += numberOfLiters;
-        return 0;
-    }
-
-    public double getTripConsumption(Date date, int length, Date SummerStart, Date SummerEnd) {
-        double consumption;
-        if (date.before(SummerStart) || date.after(SummerEnd)) {
-            consumption = length * winterFuelConsumption + winterWarmingUp;
-        } else {
-            consumption = length * summerFuelConsumption;
+        if (type == TRUCK) {
+            return new Truck(numberOfPassengers);
+        } else if (type == SEDAN) {
+            return new Sedan(numberOfPassengers);
+        } else if (type == CABRIOLET) {
+            return new Cabriolet(numberOfPassengers);
         }
-        return consumption;
+        return null;
+    }
+
+    public void fill(double numberOfLiters) {
+        if (numberOfLiters < 0)
+            throw new IndexOutOfBoundsException();
+        fuel += numberOfLiters;
+    }
+
+    public double getTripConsumption(Date date, int length, Date summerStart, Date summerEnd) {
+        return isSummer(date, summerStart, summerEnd)
+                ? getSummerConsumption(length) : getWinterConsumption(length);
     }
 
     public int getNumberOfPassengersCanBeTransferred() {
@@ -56,6 +52,18 @@ public class Car {
             return 0;
 
         return numberOfPassengers;
+    }
+
+    public boolean isSummer(Date date, Date summerStart, Date summerEnd) {
+        return  date.after(summerStart) && date.before(summerEnd);
+    }
+
+    public double getWinterConsumption(int length) {
+        return length * winterFuelConsumption + winterWarmingUp;
+    }
+
+    public double getSummerConsumption(int length) {
+        return length * summerFuelConsumption;
     }
 
     public boolean isDriverAvailable() {
