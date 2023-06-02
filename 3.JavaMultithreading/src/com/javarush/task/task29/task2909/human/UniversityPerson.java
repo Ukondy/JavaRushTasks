@@ -7,7 +7,6 @@ public class UniversityPerson extends Human {
         super(name, age);
     }
 
-
     public University getUniversity() {
         return university;
     }
