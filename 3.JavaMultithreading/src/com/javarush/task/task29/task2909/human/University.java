@@ -1,9 +1,14 @@
 package com.javarush.task.task29.task2909.human;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+@Getter
+@Setter
 public class University {
     private int age;
     private String name;
@@ -29,29 +34,4 @@ public class University {
     public void expel(Student student) {
         students.removeIf(s -> s.equals(student));
     }
-
-    public void setStudents(List<Student> students) {
-        this.students = students;
-    }
-
-    public List<Student> getStudents() {
-        return students;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
 }

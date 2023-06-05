@@ -1,13 +1,20 @@
 package com.javarush.task.task29.task2909.human;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Setter
 public class Student extends UniversityPerson {
+    @Getter
     private double averageGrade;
     private Date beginningOfSession;
     private Date endOfSession;
+    @Getter
     private int course;
 
 
@@ -30,29 +37,5 @@ public class Student extends UniversityPerson {
 
     public void incAverageGrade(double delta) {
         setAverageGrade(getAverageGrade() + delta);
-    }
-
-    public void setCourse(int course){
-        this.course = course;
-    }
-
-    public void setAverageGrade(double averageGrade){
-        this.averageGrade = averageGrade;
-    }
-
-    public void setBeginningOfSession(Date date) {
-        beginningOfSession = date;
-    }
-
-    public void setEndOfSession(Date date) {
-        endOfSession = date;
-    }
-
-    public double getAverageGrade() {
-        return averageGrade;
-    }
-
-    public int getCourse() {
-        return course;
     }
 }

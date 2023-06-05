@@ -1,11 +1,14 @@
 package com.javarush.task.task29.task2909.car;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Date;
 
 public abstract class Car {
-    static public final int TRUCK = 0;
-    static public final int SEDAN = 1;
-    static public final int CABRIOLET = 2;
+    public static final int TRUCK = 0;
+    public static final int SEDAN = 1;
+    public static final int CABRIOLET = 2;
 
     double fuel;
 
@@ -15,7 +18,7 @@ public abstract class Car {
 
     private int type;
 
-    private boolean driverAvailable;
+    @Getter @Setter private boolean driverAvailable;
     private int numberOfPassengers;
 
     protected Car(int type, int numberOfPassengers) {
@@ -65,14 +68,6 @@ public abstract class Car {
 
     public double getSummerConsumption(int length) {
         return length * summerFuelConsumption;
-    }
-
-    public boolean isDriverAvailable() {
-        return driverAvailable;
-    }
-
-    public void setDriverAvailable(boolean driverAvailable) {
-        this.driverAvailable = driverAvailable;
     }
 
     public void startMoving() {
