@@ -6,6 +6,7 @@ import java.net.Socket;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.ConsoleHandler;
 
 public class Server {
     private static Map<String, Connection> connectionMap = new ConcurrentHashMap<>();
@@ -59,9 +60,41 @@ public class Server {
             }
         }
 
+        private void notifyUsers(Connection connection, String userName) throws IOException {
+            for(String name : connectionMap.keySet()) {
+                if(!name.equals(userName)) {
+                    connection.send(new Message(MessageType.USER_ADDED, name));
+                }
+            }
+        }
+
+        private void serverMainLoop(Connection connection, String userName) throws IOException, ClassNotFoundException {
+            while(true) {
+                Message message = connection.receive();
+                if(message.getType() == MessageType.TEXT) {
+                    sendBroadcastMessage(new Message(MessageType.TEXT, userName + ": " + message.getData()));
+                } else {
+                    ConsoleHelper.writeMessage("smth went wrong");
+                }
+            }
+        }
+
         @Override
         public void run() {
-            super.run();
+            ConsoleHelper.writeMessage("connected to server: " + socket.getRemoteSocketAddress());
+            String userName = null;
+            try(Connection connection = new Connection(socket);
+            ) {
+                userName = serverHandshake(connection);
+                sendBroadcastMessage(new Message(MessageType.USER_ADDED, userName));
+                notifyUsers(connection, userName);
+                serverMainLoop(connection, userName);
+            } catch (IOException | ClassNotFoundException e) {
+                ConsoleHelper.writeMessage("smth went wrong with remote server");
+            }
+            if(userName != null) connectionMap.remove(userName);
+            sendBroadcastMessage(new Message(MessageType.USER_REMOVED, userName));
+            ConsoleHelper.writeMessage("connected to server is closed: " + socket.getRemoteSocketAddress());
         }
     }
 }
