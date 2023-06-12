@@ -4,3 +4,4 @@
 *.iml
 *.png
 /target/
+/*/target/
