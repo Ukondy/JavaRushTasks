@@ -11,6 +11,10 @@ public class Client {
     protected Connection connection;
     private volatile boolean clientConnected = false;
 
+    public static void main(String[] args) {
+        Client client = new Client();
+        client.run();
+    }
 
     protected String getServerAddress() {
         ConsoleHelper.writeMessage("get server address");
@@ -40,6 +44,36 @@ public class Client {
         } catch (IOException e) {
             ConsoleHelper.writeMessage("fail in sending message");
             clientConnected = false;
+        }
+    }
+
+    public void run() {
+        SocketThread thread = getSocketThread();
+        thread.setDaemon(true);
+
+        thread.start();
+        try {
+            synchronized (this) {
+                wait();
+            }
+        } catch(InterruptedException e) {
+            ConsoleHelper.writeMessage("was fail in process");
+            return;
+        }
+
+        if(clientConnected) {
+            ConsoleHelper.writeMessage("client connection is done");
+            while(clientConnected) {
+                String message = ConsoleHelper.readString();
+
+                if(message.equals("exit")) {
+                    break;
+                }
+
+                if(shouldSendTextFromConsole()) sendTextMessage(message);
+            }
+        } else {
+            ConsoleHelper.writeMessage("something went wrong in connection");
         }
     }
 
