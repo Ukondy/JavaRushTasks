@@ -3,9 +3,9 @@ package com.javarush.task.task30.task3008.client;
 import com.javarush.task.task30.task3008.Connection;
 import com.javarush.task.task30.task3008.ConsoleHelper;
 import com.javarush.task.task30.task3008.Message;
-import com.javarush.task.task30.task3008.MessageType;
 
 import java.io.IOException;
+import static com.javarush.task.task30.task3008.MessageType.*;
 
 public class Client {
     protected Connection connection;
@@ -40,7 +40,7 @@ public class Client {
 
     protected void sendTextMessage(String text) {
         try {
-            connection.send(new Message(MessageType.TEXT, text));
+            connection.send(new Message(TEXT, text));
         } catch (IOException e) {
             ConsoleHelper.writeMessage("fail in sending message");
             clientConnected = false;
@@ -103,5 +103,34 @@ public class Client {
             }
         }
 
+        protected void clientHandshake() throws IOException, ClassNotFoundException {
+            while(true) {
+                Message message = connection.receive();
+
+                if(message.getType() == NAME_REQUEST) {
+                    connection.send(new Message(USER_NAME, getUserName()));
+                } else if (message.getType() == NAME_ACCEPTED) {
+                    notifyConnectionStatusChanged(true);
+                    return;
+                } else {
+                    throw new IOException();
+                }
+            }
+        }
+
+        protected void clientMainLoop() throws IOException, ClassNotFoundException {
+            while(true) {
+                Message message = connection.receive();
+                if (message.getType() == TEXT) {
+                    processIncomingMessage(message.getData());
+                } else if (message.getType() == USER_ADDED) {
+                    informAboutAddingNewUser(message.getData());
+                } else if (message.getType() == USER_REMOVED) {
+                    informAboutDeletingNewUser(message.getData());
+                } else {
+                    throw new IOException("Unexpected MessageType");
+                }
+            }
+        }
     }
 }
