@@ -6,5 +6,5 @@ public enum Operation {
     REMOVE,
     EXTRACT,
     CONTENT,
-    EXIT,
+    EXIT
 }
