@@ -14,6 +14,15 @@ public class View extends JFrame implements ActionListener {
     private JTextPane htmlTextPane = new JTextPane();
     private JEditorPane plainTextPane = new JEditorPane();
 
+    public View() {
+        try {
+            UIManager.setLookAndFeel(this.getName());
+
+        } catch(Exception ex) {
+           ExceptionHandler.log(new RuntimeException(ex));
+        }
+    }
+
     public void init() {
         initGui();
         FrameListener frameListener = new FrameListener(this);
@@ -22,7 +31,15 @@ public class View extends JFrame implements ActionListener {
     }
 
     public void initMenuBar() {
-
+        JMenuBar jMenuBar = new JMenuBar();
+        MenuHelper.initFileMenu(this, jMenuBar);
+        MenuHelper.initEditMenu(this, jMenuBar);
+        MenuHelper.initStyleMenu(this, jMenuBar);
+        MenuHelper.initAlignMenu(this, jMenuBar);
+        MenuHelper.initColorMenu(this, jMenuBar);
+        MenuHelper.initFontMenu(this, jMenuBar);
+        MenuHelper.initHelpMenu(this, jMenuBar);
+        getContentPane().add(jMenuBar, BorderLayout.NORTH);
     }
 
     public void initEditor() {
