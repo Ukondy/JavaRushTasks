@@ -7,6 +7,13 @@ import java.awt.event.ActionListener;
 public class View extends JFrame implements ActionListener {
     private Controller controller;
 
+    public void init() {
+
+    }
+    public void exit() {
+        controller.exit();
+    }
+
     public Controller getController() {
         return controller;
     }
