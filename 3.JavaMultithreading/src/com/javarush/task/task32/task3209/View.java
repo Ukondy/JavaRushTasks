@@ -2,8 +2,10 @@ package com.javarush.task.task32.task3209;
 
 import com.javarush.task.task32.task3209.listeners.FrameListener;
 import com.javarush.task.task32.task3209.listeners.TabbedPaneChangeListener;
+import com.javarush.task.task32.task3209.listeners.UndoListener;
 
 import javax.swing.*;
+import javax.swing.undo.UndoManager;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,10 +15,12 @@ public class View extends JFrame implements ActionListener {
     private JTabbedPane tabbedPane = new JTabbedPane();
     private JTextPane htmlTextPane = new JTextPane();
     private JEditorPane plainTextPane = new JEditorPane();
+    private UndoManager undoManager = new UndoManager();
+    private UndoListener undoListener = new UndoListener(undoManager);
 
     public View() {
         try {
-            UIManager.setLookAndFeel(this.getName());
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
         } catch(Exception ex) {
            ExceptionHandler.log(new RuntimeException(ex));
@@ -42,6 +46,22 @@ public class View extends JFrame implements ActionListener {
         getContentPane().add(jMenuBar, BorderLayout.NORTH);
     }
 
+    public void undo() {
+        try {
+            undoManager.undo();
+        } catch(Exception e) {
+            ExceptionHandler.log(e);
+        }
+    }
+
+    public void redo() {
+        try {
+            undoManager.redo();
+        } catch(Exception e) {
+            ExceptionHandler.log(e);
+        }
+    }
+
     public void initEditor() {
         htmlTextPane.setContentType("text/html");
         tabbedPane.add("HTML", new JScrollPane(htmlTextPane));
@@ -61,8 +81,24 @@ public class View extends JFrame implements ActionListener {
 
     }
 
+    public void resetUndo() {
+        undoManager.discardAllEdits();
+    }
+
+    public boolean canUndo() {
+        return undoManager.canUndo();
+    }
+
+    public boolean canRedo() {
+        return undoManager.canRedo();
+    }
+
     public void exit() {
         controller.exit();
+    }
+
+    public UndoListener getUndoListener() {
+        return undoListener;
     }
 
     public Controller getController() {
