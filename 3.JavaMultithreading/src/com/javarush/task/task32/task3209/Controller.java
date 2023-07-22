@@ -18,7 +18,10 @@ public class Controller {
         view.setController(controller);
         view.init();
         controller.init();
+    }
 
+    public HTMLDocument getDocument() {
+        return document;
     }
 
     public void exit() {
