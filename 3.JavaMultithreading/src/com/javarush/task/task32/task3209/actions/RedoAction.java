@@ -14,6 +14,6 @@ public class RedoAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        view.redo();
     }
 }
