@@ -57,6 +57,22 @@ public class Controller {
 
     }
 
+    public void createNewDocument() {
+
+    }
+
+    public void openDocument() {
+
+    }
+
+    public void saveDocument() {
+
+    }
+
+    public void saveDocumentAs() {
+
+    }
+
     public String getPlainText() {
         StringWriter writer = new StringWriter();
         HTMLEditorKit editorKit = new HTMLEditorKit();
