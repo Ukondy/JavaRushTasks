@@ -64,11 +64,41 @@ public class Controller {
     }
 
     public void openDocument() {
+        view.selectHtmlTab();
+        JFileChooser jFileChooser = new JFileChooser();
+        jFileChooser.setFileFilter(new HTMLFileFilter());
 
+        if(JFileChooser.APPROVE_OPTION == jFileChooser.showOpenDialog(view)) {
+            currentFile = jFileChooser.getSelectedFile();
+            resetDocument();
+            view.setTitle(currentFile.getName());
+
+            try(FileReader reader = new FileReader(currentFile)) {
+                HTMLEditorKit htmlEditorKit = new HTMLEditorKit();
+                htmlEditorKit.read(reader, document, 0);
+
+            } catch(IOException | BadLocationException e) {
+                ExceptionHandler.log(e);
+            }
+
+            view.resetUndo();
+        }
     }
 
     public void saveDocument() {
+        if(currentFile != null) {
+            view.selectHtmlTab();
 
+            try(FileWriter writer = new FileWriter(currentFile)) {
+                HTMLEditorKit editorKit = new HTMLEditorKit();
+
+                editorKit.write(writer, document, 0, document.getLength());
+            } catch(IOException | BadLocationException e) {
+                ExceptionHandler.log(e);
+            }
+        } else {
+            saveDocumentAs();
+        }
     }
 
     public void saveDocumentAs() {
@@ -83,7 +113,7 @@ public class Controller {
                 HTMLEditorKit editorKit = new HTMLEditorKit();
 
                 editorKit.write(writer, document, 0, document.getLength());
-            } catch(Exception e) {
+            } catch(IOException | BadLocationException e) {
                 ExceptionHandler.log(e);
             }
         }
