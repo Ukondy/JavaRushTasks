@@ -11,6 +11,8 @@ import java.util.Objects;
 
 public class Solution {
 
+
+
     public static void main(String[] args) {
         String[] array1 = {null, "hello", "ok", null, "bye"};
 
