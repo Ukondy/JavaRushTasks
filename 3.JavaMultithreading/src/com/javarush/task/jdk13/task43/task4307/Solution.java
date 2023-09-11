@@ -22,12 +22,16 @@ public class Solution {
     }
 
     public static void printFirstNonNull(final String... values) {
+        if(Objects.isNull(values)) {
+            System.out.println((Object) null);
+            return;
+        }
         Arrays.stream(values).filter(Objects::nonNull).limit(1).forEach(System.out::println);
     }
 
     public static void printDefaultValueIfNullObject(final String[] values, final String defaultValue) {
-        for (String o : values) {
-            System.out.println(Objects.requireNonNullElse(o, defaultValue));
-        }
+        Arrays.stream(values)
+                .map(e -> Objects.requireNonNullElse(e, defaultValue))
+                .forEach(System.out::println);
     }
 }
